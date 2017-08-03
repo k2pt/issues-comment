@@ -1,2 +1,2 @@
 # issues-comment
-an comment system based on github issues
+a comment system based on github issues
