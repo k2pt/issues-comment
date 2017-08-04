@@ -19,14 +19,27 @@
 
     #loginForm {
         display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.25);
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+    }
+
+    .login-box {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 20px;
+    }
+
+    .input {
+        height: 40px;
+        width: 300px;
+        font-size: 16px;
     }
 
     .issuesComment-box {
@@ -75,12 +88,11 @@
         border-radius: 2px;
     }
 
-    
+
     .comment-submit-btn {
         display: flex;
-    float: right;
-    align-items: center;
-    justify-content: center;
+        align-items: center;
+        justify-content: center;
         float: right;
         background-color: #f4511e;
         border: none;
@@ -134,56 +146,60 @@
     }
 
 
-.submit-spinner {
-    -moz-animation: three-quarters-loader 1250ms infinite linear;
-    -webkit-animation: three-quarters-loader 1250ms infinite linear;
-    animation: three-quarters-loader 1250ms infinite linear;
-    border: 2px solid #e9e9e9;
-    border-right-color: transparent;
-    border-radius: 16px;
-    box-sizing: border-box;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    text-indent: -9999px;
-    width: 16px;
-    height: 16px;
-    display: none;
-    margin-left: 5px;
-}
+    .submit-spinner {
+        -moz-animation: three-quarters-loader 1250ms infinite linear;
+        -webkit-animation: three-quarters-loader 1250ms infinite linear;
+        animation: three-quarters-loader 1250ms infinite linear;
+        border: 2px solid #e9e9e9;
+        border-right-color: transparent;
+        border-radius: 16px;
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        text-indent: -9999px;
+        width: 16px;
+        height: 16px;
+        display: none;
+        margin-left: 5px;
+    }
 
-.loading{
-    width:120px;
-    background: #666;
-    cursor: not-allowed;
-}
+    .loading {
+        width: 120px;
+        background: #666;
+        cursor: not-allowed;
+    }
 
- @keyframes three-quarters-loader {
-  0% {
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
+    @keyframes three-quarters-loader {
+        0% {
+            -moz-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -moz-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
 
-.comment-btn-ok{
-    opacity: 0;
-    position: absolute;
-    right: 10px;
-    transition: opacity 0.5s;
-}
-.comment-btn-done{
-    background: #098d2e;
-}
+    .comment-btn-ok {
+        opacity: 0;
+        position: absolute;
+        right: 10px;
+        transition: opacity 0.5s;
+    }
 
-.login-box{
-    
-}
+    .comment-btn-done {
+        background: #098d2e;
+    }
+
+    .login-box {}
+
     .hidden {
         display: none;
+    }
+    .date-loading{
+        display: inline-block;
+
     }
     </style>
 </head>
@@ -200,12 +216,19 @@
             <button class="comment-submit-btn hidden">Comment<span class="submit-spinner"></span><span class="comment-btn-ok"><img src="ok.svg"></span></button>
             </span>
         </editor>
-        <ul id="list"></ul>
+        <ul id="list">
+            <div class="loading">Loading data<div class="submit-spinner date-loading"></div></div>
+        </ul>
         <login id="loginForm">
             <div class="login-box">
-            <input id="usernameVal" type="text" placeholder="username or Email">
-            <input id="passwordVal" type="password" placeholder="password">
-            <button onclick="issuesComment.login()">Login</button>
+                <div>
+                    <input class="input" id="usernameVal" type="text" placeholder="Username or email address">
+                </div>
+                <div>
+                    <input class="input" id="passwordVal" type="password" placeholder="Password">
+                </div>
+                <button class="comment-submit-btn" onclick="issuesComment.login()">Login</button>
+                <div class="login-from-tip"></div>
             </div>
         </login>
     </comment>

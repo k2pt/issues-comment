@@ -8,11 +8,19 @@
         xhr: 1,
         flag: 0, //0:nothing, 1:GET avatar, 2:get Comments list
         showLogin: function() {
-            loginForm.style.display = 'block';
+            loginForm.style.display = 'flex';
+            usernameVal.focus();
+            loginForm.addEventListener('click',function(){
+                loginForm.style.display = 'none';
+                loginForm.removeEventListener('click',arguments.callee)
+            })
+            document.querySelector('#loginForm .login-box').addEventListener('click',function(e){
+                e.stopPropagation()
+            })
         },
         getComment: function() {
             issuesComment.flag = 2;
-            issuesComment.xhr.open('GET', 'https://api.github.com/repos/HTML50/HTML50.github.io/issues/1/comments', true);
+            issuesComment.xhr.open('GET', 'https://api.github.com/repos/HTML50/HTML50.github.io/issues/1/comments?page=2', true);
             issuesComment.xhr.send();
         },
         login: function() {
@@ -73,6 +81,7 @@
             now = new Date(),
             timeStr = now.getFullYear()+'-'+addZero(now.getMonth)+'-'+addZero(now.getDate)+'-'+addZero(now.getHour)+'-'+addZero(now.getMinutes)+'-'+addZero(now.getSeconds);
 
+            issuesComment.total++;
             ele.innerHTML = issuesComment.generateItem(issuesComment.AVATARURL,issuesComment.ID,timeStr,issuesComment.textarea.value,issuesComment.total)
             ele.style.opacity =0;
             ele.style.display = 'block';
@@ -80,9 +89,7 @@
             setTimeout(function(){
                 ele.style.opacity =1;
             },500)
-            list.insertBefore(ele,list.firstChild)
-            issuesComment.total++;
-
+            list.insertBefore(ele,list.firstChild);
             function addZero(str){
                 str = str+"";
                 if(str.length== 1){
@@ -99,8 +106,10 @@
                     result;
                 if (day >= 365) {
                     result = parseInt(day / 365) + " years ago";
-                } else if (day >= 1) {
+                } else if (day > 1) {
                     result = parseInt(day) + " days ago";
+                } else if (day == 1) {
+                result = "1 day ago";
                 } else {
                     result = "today";
                 }
@@ -132,6 +141,7 @@
                         localStorage.setItem('AVATARURL', issuesComment.AVATARURL);
                         localStorage.setItem('ID',issuesComment.ID);
                         issuesComment.success();
+                        loginForm.style.display = 'none';
                         issuesComment.flag = 0;
                     } else {
                         issuesComment.renderComment(JSON.parse(issuesComment.xhr.responseText));
