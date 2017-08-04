@@ -19,9 +19,17 @@
 
     #loginForm {
         display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25);
     }
 
-    .comment-box {
+    .issuesComment-box {
         margin: 0 auto;
         width: 500px;
         display: block;
@@ -65,49 +73,27 @@
         height: 100px;
         border: 1px #ccc solid;
         border-radius: 2px;
-        position: relative;
     }
 
-    .comment-textarea::before{
-    position: absolute;
-    top: 12px;
-    left: -16px;
-    display: block;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-    content: "";
-    border-color: transparent;
-    border-style: solid solid outset;
-    border-width: 8px;
-    border-right-color: #CFD8DC;
-    }
-    .comment-textarea::after{
-    position: absolute;
-    top: 12px;
-    left: -14px;
-    display: block;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-    content: "";
-    border-color: transparent;
-    border-style: solid solid outset;
-    border-width: 8px;
-    border-right-color: #fff;
-    }
-    .comment-login-btn {
+    
+    .comment-submit-btn {
+        display: flex;
+    float: right;
+    align-items: center;
+    justify-content: center;
         float: right;
         background-color: #f4511e;
         border: none;
         color: #fff;
         padding: 5px;
-        width: 90px;
-        transition: all 0.5s;
+        width: 100px;
+        height: 30px;
         font-size: 16px;
         font-weight: bolder;
         cursor: pointer;
         margin: 11px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
     }
 
     li {
@@ -148,6 +134,54 @@
     }
 
 
+.submit-spinner {
+    -moz-animation: three-quarters-loader 1250ms infinite linear;
+    -webkit-animation: three-quarters-loader 1250ms infinite linear;
+    animation: three-quarters-loader 1250ms infinite linear;
+    border: 2px solid #e9e9e9;
+    border-right-color: transparent;
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 16px;
+    height: 16px;
+    display: none;
+    margin-left: 5px;
+}
+
+.loading{
+    width:120px;
+    background: #666;
+    cursor: not-allowed;
+}
+
+ @keyframes three-quarters-loader {
+  0% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.comment-btn-ok{
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    transition: opacity 0.5s;
+}
+.comment-btn-done{
+    background: #098d2e;
+}
+
+.login-box{
+    
+}
     .hidden {
         display: none;
     }
@@ -155,23 +189,24 @@
 </head>
 
 <body>
-    <comment class="comment-box">
+    <comment class="issuesComment-box">
         <editor class="comment-editor">
             <user id="userInfo">
                 <a href="#" onclick="issuesComment.showLogin()"><img src="octocat.png" class="avatar" title="Click to login"></a>
             </user>
             <span>
-        <div class="comment-login-tip" id="tip"><a href="#" onclick="issuesComment.showLogin()">Login with Github to comment</a></div>
-            <div class="comment-textarea hidden"><textarea class="comment-textarea hidden" id="text"></textarea></div>
-            <button type="button" class="comment-login-btn hidden" id="btn">Comment</button>
+        <div class="comment-login-tip"><a href="#" onclick="issuesComment.showLogin()">Login with Github to comment</a></div>
+            <textarea class="comment-textarea hidden"></textarea>
+            <button class="comment-submit-btn hidden">Comment<span class="submit-spinner"></span><span class="comment-btn-ok"><img src="ok.svg"></span></button>
             </span>
         </editor>
         <ul id="list"></ul>
         <login id="loginForm">
-            username:
-            <input id="usernameVal" type="text"> password:
-            <input id="passwordVal" type="text">
+            <div class="login-box">
+            <input id="usernameVal" type="text" placeholder="username or Email">
+            <input id="passwordVal" type="password" placeholder="password">
             <button onclick="issuesComment.login()">Login</button>
+            </div>
         </login>
     </comment>
     <script src='issues-comment.js'></script>

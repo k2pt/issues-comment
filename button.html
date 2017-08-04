@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+
+.three-quarters-loader {
+    -moz-animation: three-quarters-loader 1250ms infinite linear;
+    -webkit-animation: three-quarters-loader 1250ms infinite linear;
+    animation: three-quarters-loader 1250ms infinite linear;
+    border: 2px solid #e9e9e9;
+    border-right-color: transparent;
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 16px;
+    height: 16px;
+    display: none;
+    margin-left: 5px;
+}
+
+.loading{
+    width:120px;
+    background: #666;
+    cursor: not-allowed;
+}
+
+ @keyframes three-quarters-loader {
+  0% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+button{
+        display: flex;
+    float: right;
+    align-items: center;
+    justify-content: center;
+        float: right;
+        background-color: #f4511e;
+        border: none;
+        color: #fff;
+        padding: 5px;
+        width: 100px;
+        height: 30px;
+        font-size: 16px;
+        font-weight: bolder;
+        cursor: pointer;
+        margin: 11px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.comment-btn-ok{
+opacity: 0;
+    position: absolute;
+    right: 28px;
+    transition: opacity 0.5s;
+}
+.comment-btn-done{
+    background: #098d2e;
+}
+</style>
+</head>
+
+<body>
+
+        <button id="btn">Comment<span id="spinner" class="three-quarters-loader"></span><span class="comment-btn-ok"><img src="ok.svg"></span></button>
+
+<script>
+var btn = document.querySelector('#btn')
+
+
+    btn.addEventListener('click',function(){
+        btn.classList.add('loading');
+        btn.disabled = true;
+        spinner.style.display = 'inline';
+
+        setTimeout(function(){
+            ok();
+        },1000)
+    })
+
+
+    function ok(){
+
+        spinner.style.opacity = 0;
+        done.style.display = 'inline';
+        done.style.opacity = '1';
+        btn.classList.add('comment-btn-done');
+
+        setTimeout(function(){
+            btn.classList.remove('comment-btn-done');
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            spinner.style.opacity = 1;
+            done.style.display = 'none';
+            done.style.opacity=0;
+        },1000)
+
+    }
+</script>
+</body>
+
+</html>
