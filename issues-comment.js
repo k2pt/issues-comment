@@ -216,7 +216,7 @@
             <span>\
         <div class="comment-login-tip"><a href="#" onclick="issuesComment.showLogin()">Login with Github to comment</a></div>\
             <textarea class="comment-textarea hidden" placeholder="Styling with Markdown is supported"></textarea>\
-            <button class="comment-submit-btn hidden">Comment<span class="submit-spinner"></span><span class="comment-btn-result"><img src="ok.svg"></span></button>\
+            <button class="comment-submit-btn hidden">Comment<span class="submit-spinner"></span><span class="comment-btn-result"><img src="//html50.github.io/issues-comment/ok.svg"></span></button>\
             </span>\
         </editor>\
         <ul id="list">\
