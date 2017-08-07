@@ -48,7 +48,7 @@
             issuesComment.btn.classList.add('hidden');
             issuesComment.textarea.classList.add('hidden');
             issuesComment.btn.classList.add('hidden');
-            document.querySelector('.issuesComment-box .user-info').innerHTML = '<a href="javascript:void(0)" onclick="issuesComment.login()"><img class="avatar" src="octocat.png" title="Click to login"></a>';
+            document.querySelector('.issuesComment-box .user-info').innerHTML = '<a href="javascript:void(0)" onclick="issuesComment.login()"><img class="avatar" src="//html50.github.io/issues-comment/octocat.png" title="Click to login"></a>';
         },
         success: function() {
             localStorage.setItem('USERNAME', issuesComment.USERNAME);
