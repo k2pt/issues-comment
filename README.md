@@ -1,7 +1,7 @@
 # issues-comment
 a comment system based on github issues
 
-http://github.com/HTML50/issues-comment
+http://es5.site/issues-comment
 
 
 
@@ -9,12 +9,12 @@ http://github.com/HTML50/issues-comment
 
 1.import theme style.
 ```html
-<link rel="stylesheet" type="text/css" href="theme.css">   
+<link rel="stylesheet" type="text/css" href="//html50.github.io/issues-comment/theme.css">   
 ```
 2.import js files.
 ```html
-<script src='issues-comment.js'></script>  //core file
-<script src='js/marked.js'></script>  //render Markdown
+<script src='//html50.github.io/issues-comment/issues-comment.js'></script>  //core file
+<script src='//html50.github.io/issues-comment/js/marked.js'></script>  //render Markdown
 ```
 
 3.set your issues URL and initial issues-comment.

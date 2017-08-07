@@ -190,7 +190,7 @@
         },
         submitBtnCallback:function(isSuccess,btn,spinner,result,resultIMG){
             var resultClass = isSuccess ? 'comment-btn-done' : 'comment-btn-wrong',
-                resultSvg = isSuccess ? 'ok.svg':'wrong.svg'; 
+                resultSvg = isSuccess ? '//html50.github.io/issues-comment/ok.svg':'//html50.github.io/issues-comment/wrong.svg'; 
                     resultIMG.src=resultSvg;
                     spinner.style.display = 'none';
                     result.style.display = 'inline-block';
@@ -211,7 +211,7 @@
             var html = '<comment class="issuesComment-box">\
         <editor class="comment-editor">\
             <user class="user-info">\
-                <a href="#" onclick="issuesComment.showLogin()"><img src="octocat.png" class="avatar" title="Click to login"></a>\
+                <a href="#" onclick="issuesComment.showLogin()"><img src="//html50.github.io/issues-comment/octocat.png" class="avatar" title="Click to login"></a>\
             </user>\
             <span>\
         <div class="comment-login-tip"><a href="#" onclick="issuesComment.showLogin()">Login with Github to comment</a></div>\
