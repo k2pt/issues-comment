@@ -1,0 +1,239 @@
+* {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: #eee;
+        font-family: Helvetica, sans-serif;
+    }
+
+    #loginForm {
+        display: none;
+        opacity: 0;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+        transition: opacity 0.5s;
+    }
+
+    .login-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 4px;
+        text-align: center;
+    }
+
+    .input {
+    height: 40px;
+    width: 300px;
+    font-size: 16px;
+    border: none;
+    border-bottom: #999999 1px solid;
+    outline: none;
+    }
+
+    .issuesComment-box {
+        margin: 0 auto;
+        width: 500px;
+        display: block;
+    }
+
+    .issuesComment-box a{
+        text-decoration: none;
+    }
+        .issuesComment-box a:hover{
+        text-decoration: underline;
+    }
+
+    .comment-editor {
+        background: #fff;
+        display: flex;
+        margin: 30px 0;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .avatar {
+        width: 60px;
+        height: 60px;
+        padding: 4px;
+        border-radius: 6px;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .comment-login-tip {
+        display: flex;
+        height: 100%;
+        align-items: center;
+    }
+
+    .comment-login-tip a {
+        color: #5a5a5a;
+    }
+    .comment-textarea {
+        width: 380px;
+        height: 100px;
+        border: 1px #ccc solid;
+        border-radius: 2px;
+        outline: none;
+        padding: 10px;
+    }
+
+
+    .comment-submit-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: right;
+        background-color: #3ca0e9;
+        border: none;
+        color: #fff;
+        padding: 5px;
+        width: 100px;
+        height: 30px;
+        font-size: 16px;
+        font-weight: bolder;
+        cursor: pointer;
+        margin: 11px 0 0;;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .comment-item {
+        background: #fff;
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .comment-user {
+        font-weight: 900;
+        color: #555;
+    }
+    .comment-user a{
+        color:#666;
+    }
+    .comment-content {
+        padding: 10px 0 0 0;
+    }
+
+    .comment-body {
+        display: inline-block;
+        background: #fff;
+        width: 423px;
+        vertical-align: top;
+        padding: 10px;
+        color: #555555;
+        font-size: 18px;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #999;
+    }
+
+
+    .submit-spinner {
+        -moz-animation: three-quarters-loader 1250ms infinite linear;
+        -webkit-animation: three-quarters-loader 1250ms infinite linear;
+        animation: three-quarters-loader 1250ms infinite linear;
+        border: 2px solid #e9e9e9;
+        border-right-color: transparent;
+        border-radius: 16px;
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        text-indent: -9999px;
+        width: 16px;
+        height: 16px;
+        display: none;
+        margin-left: 5px;
+    }
+
+    .loading {
+        width: 120px;
+        background: #666;
+        cursor: not-allowed;
+    }
+
+    .index-comment-loading{
+        margin: 0 auto;
+        width: 120px;
+    }
+
+    @keyframes three-quarters-loader {
+        0% {
+            -moz-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -moz-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    .comment-btn-result {
+            display: none;
+        opacity: 0;
+        transition: opacity 0.5s;
+        height: 16px;
+        margin-left: 5px;
+    }
+
+    .comment-btn-done {
+        background: #098d2e;
+    }
+    .comment-btn-wrong{
+        background: red;
+    }
+
+    .hidden {
+        display: none;
+    }
+    .data-loading{
+        display: inline-block;
+        border-color: #818181;
+        border-right-color: transparent;
+    }
+
+    .login-title{
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    margin:30px;
+    }
+
+    .login-form-tip{
+    width: 280px;
+    background: #eee;
+    margin: 10px 0;
+    padding: 10px;
+    color: #4b4b4b;
+    border-radius: 4px;
+    font-size: small;
+    }
+    .user-info{
+    text-align: center;
+    font-size: 14px;
+    }
+
+    .user-info a{
+        color: #888;
+    }

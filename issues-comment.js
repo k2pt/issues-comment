@@ -1,26 +1,34 @@
-(function() {
     issuesComment = {
         USERNAME: "",
         PASSWORD: "",
         ID:"",
         AVATARURL: "",
+        url:"",
         total:0,
         xhr: 1,
         flag: 0, //0:nothing, 1:GET avatar, 2:get Comments list
         showLogin: function() {
             loginForm.style.display = 'flex';
             usernameVal.focus();
-            loginForm.addEventListener('click',function(){
-                loginForm.style.display = 'none';
-                loginForm.removeEventListener('click',arguments.callee)
+            issuesComment.loginBtn = document.querySelector(".issuesComment-box .login-box .comment-submit-btn");
+            issuesComment.loginSpinner = document.querySelector(".issuesComment-box .login-box .submit-spinner");
+            issuesComment.loginResult = document.querySelector(".issuesComment-box .login-box .comment-btn-result");
+            issuesComment.loginForm.style.opacity = 1;
+
+            issuesComment.loginForm.addEventListener('click',function(){
+                issuesComment.loginForm.style.opacity = 0;
+                setTimeout(function(){
+                    issuesComment.loginForm.style.display = 'none';
+                },1000)
+                issuesComment.loginForm.removeEventListener('click',arguments.callee)
             })
-            document.querySelector('#loginForm .login-box').addEventListener('click',function(e){
+            document.querySelector('.issuesComment-box .login-box').addEventListener('click',function(e){
                 e.stopPropagation()
             })
         },
         getComment: function() {
             issuesComment.flag = 2;
-            issuesComment.xhr.open('GET', 'https://api.github.com/repos/HTML50/HTML50.github.io/issues/1/comments?page=2', true);
+            issuesComment.xhr.open('GET', 'https://api.github.com/repos/'+issuesComment.url+'/comments?per_page=100', true);
             issuesComment.xhr.send();
         },
         login: function() {
@@ -28,6 +36,9 @@
             issuesComment.PASSWORD = passwordVal.value;
             issuesComment.flag = 1;
             issuesComment.checkUser();
+            issuesComment.loginBtn.classList.add('loading');
+            issuesComment.loginBtn.disabled = true;
+            issuesComment.loginSpinner.style.display = 'inline';
         },
         logout() {
             localStorage.removeItem('USERNAME');
@@ -37,7 +48,7 @@
             issuesComment.btn.classList.add('hidden');
             issuesComment.textarea.classList.add('hidden');
             issuesComment.btn.classList.add('hidden');
-            userInfo.innerHTML = '<a href="javascript:void(0)" onclick="issuesComment.login()"><img class="avatar" src="octocat.png" title="Click to login"></a>';
+            document.querySelector('.issuesComment-box .user-info').innerHTML = '<a href="javascript:void(0)" onclick="issuesComment.login()"><img class="avatar" src="octocat.png" title="Click to login"></a>';
         },
         success: function() {
             localStorage.setItem('USERNAME', issuesComment.USERNAME);
@@ -50,7 +61,7 @@
         },
         submit: function(method) {
             var payload;
-            issuesComment.xhr.open('POST', 'https://api.github.com/repos/HTML50/HTML50.github.io/issues/1/comments', true);
+            issuesComment.xhr.open('POST', 'https://api.github.com/repos/'+issuesComment.url+'/comments', true);
             payload = JSON.stringify({ "body": issuesComment.textarea.value });
             issuesComment.xhr.setRequestHeader("Authorization", "Basic " + btoa(issuesComment.USERNAME + ":" + issuesComment.PASSWORD))
             issuesComment.xhr.send(payload);
@@ -64,17 +75,17 @@
             issuesComment.xhr.send();
         },
         updateUser: function() {
-            userInfo.innerHTML = '<a href="javascript:void(0)" onclick="issuesComment.logout()"><img class="avatar" src="' + issuesComment.AVATARURL + '" title="' + issuesComment.USERNAME + '已登录"></a>';
+            document.querySelector('.issuesComment-box .user-info').innerHTML = '<img class="avatar" src="' + issuesComment.AVATARURL + '" title="' + issuesComment.USERNAME + '"><a href="javascript:void(0)" onclick="issuesComment.logout()">Logout</a>';
         },
         renderComment: function(obj) {
             let i = obj.length - 1,
                 output = '';
                 issuesComment.total = i;
 
-            for (i; i > 0; i--) {
+            for (i; i >= 0; i--) {
                 output += issuesComment.generateItem(obj[i].user.avatar_url,obj[i].user.login,obj[i].created_at.replace(/[TZ]/g, " "),obj[i].body,i)
             }
-            list.innerHTML = output;
+            document.querySelector('.issuesComment-box #list').innerHTML = output;
         },
         addComment:function(){
             var ele = document.createElement('new'),
@@ -89,7 +100,7 @@
             setTimeout(function(){
                 ele.style.opacity =1;
             },500)
-            list.insertBefore(ele,list.firstChild);
+            document.querySelector('.issuesComment-box #list').insertBefore(ele,document.querySelector('.issuesComment-box #list').firstChild);
             function addZero(str){
                 str = str+"";
                 if(str.length== 1){
@@ -116,17 +127,15 @@
                 return result;
             }
 
-
-
             return '<li class="comment-item">\
-                <img class="avatar" src="' + avatar + '" title="' + ID + '">\
+                <a href="//github.com/'+ID+'" target="_blank"><img class="avatar" src="' + avatar + '" title="' + ID + '"></a>\
                 <span class="comment-body">\
                 <div class="comment-header">\
                 <span>\
-                    <span class="comment-user">' + ID + '</span>\
+                    <span class="comment-user"><a href="//github.com/'+ID+'" target="_blank">' + ID + '</a></span>\
                     <span class="comment-time" title="' + timeStr + '"> commented ' + getDateDiff(timeStr) + '</span>\
                 </span>\
-                <span>#' + floor + '</span>\
+                <span>#' + (floor+1) + '</span>\
                 </div>\
                 <div class="comment-content">' + marked(content) + '</div>\
                 </span>\
@@ -136,64 +145,118 @@
             if (issuesComment.xhr.readyState == 4) {
                 if (issuesComment.xhr.status == 200) {
                     if (issuesComment.flag == 1) {
+                        issuesComment.submitBtnCallback(true,issuesComment.loginBtn,issuesComment.loginSpinner,issuesComment.loginResult,document.querySelector(".issuesComment-box .login-box .comment-submit-btn img"));
                         issuesComment.AVATARURL = JSON.parse(issuesComment.xhr.responseText).avatar_url;
                         issuesComment.ID = JSON.parse(issuesComment.xhr.responseText).login;
                         localStorage.setItem('AVATARURL', issuesComment.AVATARURL);
                         localStorage.setItem('ID',issuesComment.ID);
                         issuesComment.success();
-                        loginForm.style.display = 'none';
+                        setTimeout(function(){
+                            issuesComment.loginForm.style.opacity = 0;
+                        },1000)
+                        setTimeout(function(){
+                            issuesComment.loginForm.style.display = 'none';
+                        },2000)
+                        issuesComment.loginResult = '';
                         issuesComment.flag = 0;
                     } else {
+                        if(issuesComment.xhr.getResponseHeader('Link')){
+                            console.log('多于100条记录，可以进行分页啦！')
+                        }
                         issuesComment.renderComment(JSON.parse(issuesComment.xhr.responseText));
                         issuesComment.flag = 0;
                     }
                 }
 
                 if (issuesComment.xhr.status == 201) {
-                    issuesComment.spinner.style.opacity = 0;
-                    issuesComment.done.style.display = 'inline';
-                    issuesComment.done.style.opacity = '1';
-                    issuesComment.btn.classList.add('comment-btn-done');
-
                     issuesComment.addComment();
-                    setTimeout(function() {
-                        issuesComment.btn.classList.remove('comment-btn-done');
-                        issuesComment.btn.classList.remove('loading');
-                        issuesComment.btn.disabled = false;
-                        issuesComment.spinner.style.display = 'none';
-                        issuesComment.spinner.style.opacity = 1;
-                        issuesComment.done.style.display = 'none';
-                        issuesComment.done.style.opacity = 0;
-                    }, 1000)
+                    issuesComment.submitBtnCallback(true,issuesComment.btn,issuesComment.spinner,issuesComment.result,document.querySelector(".issuesComment-box .comment-submit-btn img"))
 
                 }
+
+                if (issuesComment.xhr.status == 422) {
+                    issuesComment.submitBtnCallback(false,issuesComment.btn,issuesComment.spinner,issuesComment.result,document.querySelector(".issuesComment-box .comment-submit-btn img"))
+                }
+
                 if (issuesComment.xhr.status == 401) {
                     if (issuesComment.flag == 1) {
-                        alert('password wrong :(')
+                        issuesComment.submitBtnCallback(false,issuesComment.loginBtn,issuesComment.loginSpinner,issuesComment.loginResult,document.querySelector(".issuesComment-box .login-box .comment-submit-btn img"))
                     } else {
-                        console.log('something went wrong :(')
+                        issuesComment.submitBtnCallback(false,issuesComment.btn,issuesComment.spinner,issuesComment.result,document.querySelector(".issuesComment-box .comment-submit-btn img"))
                     }
                     issuesComment.flag = 0;
                 }
             }
         },
+        submitBtnCallback:function(isSuccess,btn,spinner,result,resultIMG){
+            var resultClass = isSuccess ? 'comment-btn-done' : 'comment-btn-wrong',
+                resultSvg = isSuccess ? 'ok.svg':'wrong.svg'; 
+                    resultIMG.src=resultSvg;
+                    spinner.style.display = 'none';
+                    result.style.display = 'inline-block';
+                    result.style.opacity = '1';
+                    btn.classList.add(resultClass);
+
+                    setTimeout(function() {
+                        btn.classList.remove(resultClass);
+                        btn.classList.remove('loading');
+                        btn.disabled = false;
+                        
+                        result.style.display = 'none';
+                        result.style.opacity = 0;
+                    }, 1000)
+
+        },
+        createCompnent:function(){
+            var html = '<comment class="issuesComment-box">\
+        <editor class="comment-editor">\
+            <user class="user-info">\
+                <a href="#" onclick="issuesComment.showLogin()"><img src="octocat.png" class="avatar" title="Click to login"></a>\
+            </user>\
+            <span>\
+        <div class="comment-login-tip"><a href="#" onclick="issuesComment.showLogin()">Login with Github to comment</a></div>\
+            <textarea class="comment-textarea hidden" placeholder="Styling with Markdown is supported"></textarea>\
+            <button class="comment-submit-btn hidden">Comment<span class="submit-spinner"></span><span class="comment-btn-result"><img src="ok.svg"></span></button>\
+            </span>\
+        </editor>\
+        <ul id="list">\
+            <div class="index-comment-loading">Loading data<div class="submit-spinner data-loading"></div></div>\
+        </ul>\
+        <login id="loginForm">\
+            <div class="login-box">\
+            <div class="login-title">Sign in via GitHub</div>\
+            <form>\
+                <div>\
+                    <input class="input" id="usernameVal" type="text" placeholder="Username or email address">\
+                </div>\
+                <div>\
+                    <input class="input" id="passwordVal" type="password" placeholder="Password">\
+                </div>\
+                <div class="login-form-tip">We are not collecting your password, just use it for Github basic authentication</div>\
+                <button class="comment-submit-btn" onclick="issuesComment.login()">Login<span class="submit-spinner"></span><span class="comment-btn-result"><img src="ok.svg"></span></button>\
+                </form>\
+            </div>\
+        </login>\
+    </comment>'
+            document.write(html)
+        },
         init: function() {
             issuesComment.xhr = new XMLHttpRequest();
             issuesComment.xhr.onreadystatechange = issuesComment.handleStateChange;
+            issuesComment.createCompnent();
             issuesComment.getComment();
-            //issuesComment.createCompnent()
             issuesComment.btn = document.querySelector(".issuesComment-box .comment-submit-btn");
             issuesComment.spinner = document.querySelector(".issuesComment-box .submit-spinner");
             issuesComment.tip = document.querySelector(".issuesComment-box .comment-login-tip");
             issuesComment.textarea = document.querySelector(".issuesComment-box .comment-textarea");
-            issuesComment.done = document.querySelector(".issuesComment-box .comment-btn-ok");
+            issuesComment.result = document.querySelector(".issuesComment-box .comment-btn-result");
+            issuesComment.loginForm = document.querySelector(".issuesComment-box #loginForm");
 
             issuesComment.USERNAME = localStorage.getItem('USERNAME');
             if (issuesComment.USERNAME) {
                 issuesComment.PASSWORD = localStorage.getItem('PASSWORD')
                 issuesComment.AVATARURL = localStorage.getItem('AVATARURL')
                 issuesComment.tip.classList.add('hidden');
-                issuesComment.btn.classList.remove('hidden');
                 issuesComment.textarea.classList.remove('hidden');
                 issuesComment.btn.classList.remove('hidden');
                 issuesComment.updateUser();
@@ -207,5 +270,3 @@
 
         }
     }
-
-})();
