@@ -82,7 +82,7 @@
                 output = '';
                 issuesComment.total = i;
             if(i === -1){
-                return document.querySelector('.issuesComment-box #list').innerHTML = 'No comment for now, you should make one.';
+                return document.querySelector('.issuesComment-box #list').innerHTML = '<center>No comment for now, you should make one.</center>';
             }
             for (i; i >= 0; i--) {
                 output += issuesComment.generateItem(obj[i].user.avatar_url,obj[i].user.login,obj[i].created_at.replace(/[TZ]/g, " "),obj[i].body,i)
