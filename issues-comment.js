@@ -78,7 +78,7 @@
             document.querySelector('.issuesComment-box .user-info').innerHTML = '<img class="avatar" src="' + issuesComment.AVATARURL + '" title="' + issuesComment.USERNAME + '"><a href="javascript:void(0)" onclick="issuesComment.logout()">Logout</a>';
         },
         renderComment: function(obj) {
-            let i = obj.length - 1,
+            var i = obj.length - 1,
                 output = '';
                 issuesComment.total = i;
 
