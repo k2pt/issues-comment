@@ -81,7 +81,9 @@
             var i = obj.length - 1,
                 output = '';
                 issuesComment.total = i;
-
+            if(i === -1){
+                return document.querySelector('.issuesComment-box #list').innerHTML = 'No comment for now, you should make one.';
+            }
             for (i; i >= 0; i--) {
                 output += issuesComment.generateItem(obj[i].user.avatar_url,obj[i].user.login,obj[i].created_at.replace(/[TZ]/g, " "),obj[i].body,i)
             }
@@ -233,7 +235,7 @@
                     <input class="input" id="passwordVal" type="password" placeholder="Password">\
                 </div>\
                 <div class="login-form-tip">We are not collecting your password, just use it for Github basic authentication</div>\
-                <button class="comment-submit-btn" onclick="issuesComment.login()">Login<span class="submit-spinner"></span><span class="comment-btn-result"><img src="ok.svg"></span></button>\
+                <button class="comment-submit-btn" onclick="issuesComment.login()">Login<span class="submit-spinner"></span><span class="comment-btn-result"><img src="//html50.github.io/issues-comment/ok.svg"></span></button>\
                 </form>\
             </div>\
         </login>\
