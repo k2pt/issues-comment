@@ -40,7 +40,7 @@
             issuesComment.loginBtn.disabled = true;
             issuesComment.loginSpinner.style.display = 'inline';
         },
-        logout() {
+        logout: function() {
             localStorage.removeItem('USERNAME');
             localStorage.removeItem('PASSWORD')
             localStorage.removeItem('AVATARURL');
